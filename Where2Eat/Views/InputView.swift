@@ -11,11 +11,16 @@ struct InputView: View {
     @AppStorage("userName") private var userName: String = ""
     @State private var cuisineOrFood: String = ""
     @State private var location: String = ""
-    @State private var radius: Int = 0
+    @State private var radius: Int = 1
+    
+    let radiusDistance: [Int] = [1, 5, 10, 20, 25, 50, 100]
     
     var body: some View {
         VStack {
             Text("Hello \(userName), what would you like to eat today?")
+            
+            Spacer()
+                .frame(height: 100)
             
             Text("Cuisine or Food")
             TextField("Enter your cuisine of food you're craving", text: $cuisineOrFood)
@@ -29,12 +34,16 @@ struct InputView: View {
                 .keyboardType(.default)
                 .padding()
             
-            // TODO: This will later be changed to a wheel of 1, 5, 10, 20... so on
             Text("Radius")
-            TextField("Enter the radius in which you are willing to go for!", value: $radius, formatter: NumberFormatter())
-                .textFieldStyle(.roundedBorder)
-                .keyboardType(.decimalPad)
-                .padding()
+            Picker("Radius", selection: $radius) {
+                ForEach(radiusDistance, id: \.self) { distance in
+                    Text("Within \(distance) \(distance == 1 ? "mile" : "miles")")
+                }
+            }
+            .pickerStyle(.menu)
+            
+            Spacer()
+                .frame(height: 100)
             
             Button("Spin The wheel!") {}
         }
