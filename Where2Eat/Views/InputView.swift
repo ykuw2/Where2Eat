@@ -45,7 +45,7 @@ struct InputView: View {
             Spacer()
                 .frame(height: 100)
             
-            Button("Spin The wheel!") {}
+            Button("Go!") {}
         }
     }
 }
