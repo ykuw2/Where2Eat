@@ -40,16 +40,6 @@
 			path = Where2Eat;
 			sourceTree = "<group>";
 		};
-		F890753F2EB1E4EA00A34549 /* Where2EatTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Where2EatTests;
-			sourceTree = "<group>";
-		};
-		F89075492EB1E4EA00A34549 /* Where2EatUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Where2EatUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +72,6 @@
 			children = (
 				F89075A12EB1E86200A34549 /* README.md */,
 				F89075312EB1E4E900A34549 /* Where2Eat */,
-				F890753F2EB1E4EA00A34549 /* Where2EatTests */,
-				F89075492EB1E4EA00A34549 /* Where2EatUITests */,
 				F89075302EB1E4E900A34549 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,9 +124,6 @@
 			dependencies = (
 				F890753E2EB1E4EA00A34549 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				F890753F2EB1E4EA00A34549 /* Where2EatTests */,
-			);
 			name = Where2EatTests;
 			packageProductDependencies = (
 			);
@@ -158,9 +143,6 @@
 			);
 			dependencies = (
 				F89075482EB1E4EA00A34549 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				F89075492EB1E4EA00A34549 /* Where2EatUITests */,
 			);
 			name = Where2EatUITests;
 			packageProductDependencies = (
