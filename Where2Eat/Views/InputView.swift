@@ -13,6 +13,7 @@ struct InputView: View {
     @State private var location: String = ""
     @State private var radius: Int = 1
     @State private var isLoading = false
+    @State private var cuisineOrFoodError = false
     
     let radiusDistance: [Int] = [1, 5, 10, 20, 25, 50, 100]
     
@@ -23,13 +24,12 @@ struct InputView: View {
                     Text("Hello \(userName), what would you like to eat today?")
                     
                     Spacer()
-                        .frame(height: 100)
+                        .frame(height: 50)
                     
-                    // TODO: Make sure that the two fields below are not empty
                     Text("Cuisine or Food")
                     TextField("Enter your cuisine of food you're craving", text: $cuisineOrFood)
                         .textFieldStyle(.roundedBorder)
-                        .keyboardType(.default)
+                        .keyboardType(.asciiCapable) 
                         .padding()
                     
                     Text("Location")
@@ -47,13 +47,21 @@ struct InputView: View {
                     .pickerStyle(.menu)
                     
                     Spacer()
-                        .frame(height: 100)
+                        .frame(height: 50)
                     
                     // TODO: Add logic for the MapKit
                     // For now it will just go to the LoadingView
                     Button("Go!") {
-                        isLoading = true
+                        let trimmedCuisineOrFood = cuisineOrFood.trimmingCharacters(in: .whitespacesAndNewlines)
+                        if trimmedCuisineOrFood.isEmpty || trimmedCuisineOrFood.count <= 2 {
+                            cuisineOrFoodError = true
+                        } else {
+                            isLoading = true
+                        }
                     }
+                    .alert("Cuisine or Food Input is Invalid", isPresented: $cuisineOrFoodError, actions: {
+                        Button("Ok", role: .cancel) {}
+                    },)
                 }
             } else { // if isLoading is true
                 LoadingView()
