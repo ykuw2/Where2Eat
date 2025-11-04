@@ -9,7 +9,16 @@ import Combine
 import MapKit
 
 class LocationSearchViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelegate { // Obj-C APIs, search result updates
-    @Published var queryFragment: String = ""
+    @Published var queryFragment: String = "" {
+        didSet {
+            let trimmed = queryFragment.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmed.isEmpty { // If the search text is empty then the completions should be empty
+                completions = []
+            } else {
+                completer.queryFragment = trimmed
+            }
+        }
+    }
     @Published var completions: [MKLocalSearchCompletion] = []
     
     private var completer: MKLocalSearchCompleter // MapKit object that does the searching
@@ -30,7 +39,6 @@ class LocationSearchViewModel: NSObject, ObservableObject, MKLocalSearchComplete
     }
     
     func updateSearch(_ input: String) { // Called whenever user types
-        queryFragment = input // UI binding
         completer.queryFragment = input // for the completer
     }
 }
