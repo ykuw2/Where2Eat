@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct LoadingView: View {
+    @State private var bounce = false
+    
     var body: some View {
         VStack {
             ProgressView() // The Spinning Circle View that we all see
                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                .scaleEffect(2)
+                .scaleEffect(1.8)
+                .offset(y: bounce ? -3 : 3)
+                .animation(
+                    .easeInOut(duration: 0.5)
+                    .repeatForever(autoreverses: true),
+                    value: bounce
+                )
+                .onAppear {
+                    bounce = true
+                }
             
             Spacer()
                 .frame(height: 50)
