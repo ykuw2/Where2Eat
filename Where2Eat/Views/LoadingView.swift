@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Combine
 
 struct LoadingView: View {
     @State private var bounce = false
+    @State private var dotCount = 0
     
     var body: some View {
         VStack {
@@ -28,9 +30,14 @@ struct LoadingView: View {
             Spacer()
                 .frame(height: 50)
             
-            Text("🍽️ Cooking it up just for you...")
+            Text("🍽️ Cooking it up just for you" + String(repeating: ".", count: dotCount))
                 .foregroundStyle(.white)
                 .font(.headline)
+                .onAppear {
+                    Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+                        dotCount = (dotCount + 1) % 4
+                    }
+                }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
          .background(Color(red: 0.9, green: 0.3, blue: 0.0))
