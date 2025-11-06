@@ -13,8 +13,9 @@ struct InputView: View {
     @State private var cuisineOrFood: String = ""
     @State private var location: String = ""
     @State private var radius: Int = 1
-    @State private var isLoading = false
-    @State private var cuisineOrFoodError = false
+    @State private var isLoading: Bool = false
+    @State private var cuisineOrFoodError: Bool = false
+    @State private var toSelectedView: Bool = false
     @State private var searchViewModel = LocationSearchViewModel()
     
     let radiusDistance: [Int] = [1, 5, 10, 20, 25, 50, 100]
@@ -97,10 +98,19 @@ struct InputView: View {
                     }
                 }
             } else { // if isLoading is true
+                if !toSelectedView {
                     LoadingView()
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                toSelectedView = true
+                                }
+                            }
+                    } else {
+                        SelectedView()
+                        }
+                    }
                 }
-            }
-    }
+        }
 
 #Preview {
     InputView()
