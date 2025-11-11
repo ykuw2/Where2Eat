@@ -17,6 +17,7 @@ struct InputView: View {
     @State private var cuisineOrFoodError: Bool = false
     @State private var toSelectedView: Bool = false
     @State private var searchViewModel = LocationSearchViewModel()
+    @StateObject var global = globalRestaurants()
     
     let radiusDistance: [Int] = [1, 5, 10, 20, 25, 50, 100]
     
@@ -61,7 +62,15 @@ struct InputView: View {
                             if trimmedCuisineOrFood.isEmpty || trimmedCuisineOrFood.count <= 2 {
                                 cuisineOrFoodError = true
                             } else {
-                                isLoading = true
+                                // Running the getRestaurant Function here
+                                getRestaurants(foodOrCuisine: cuisineOrFood, location: location, distance: radius) { items in
+                                    if items.isEmpty {
+                                        // Throw an error here
+                                    } else {
+                                        isLoading = true
+                                        global.restaurantsList = items
+                                    }
+                                }
                             }
                         }
                         .alert("Cuisine or Food Input is Invalid", isPresented: $cuisineOrFoodError) {
