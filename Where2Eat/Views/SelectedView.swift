@@ -9,7 +9,7 @@ import MapKit
 import SwiftUI
 
 struct SelectedView: View {
-    @ObservedObject var global = globalRestaurants()
+    @ObservedObject var global: globalRestaurants
     
     var body: some View {
         VStack {
@@ -24,6 +24,6 @@ struct SelectedView: View {
     }
 }
 
-#Preview {
-    SelectedView()
-}
+//#Preview {
+//    SelectedView()
+//}

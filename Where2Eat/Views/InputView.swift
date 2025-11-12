@@ -17,7 +17,7 @@ struct InputView: View {
     @State private var cuisineOrFoodError: Bool = false
     @State private var toSelectedView: Bool = false
     @State private var searchViewModel = LocationSearchViewModel()
-    @StateObject var global = globalRestaurants()
+    @ObservedObject var global = globalRestaurants()
     
     let radiusDistance: [Int] = [1, 5, 10, 20, 25, 50, 100]
     
@@ -58,17 +58,20 @@ struct InputView: View {
                             .frame(height: 50)
                         
                         Button("Go!") {
+                            global.restaurantsList = [] // Empty the previous restaurants first
                             let trimmedCuisineOrFood = cuisineOrFood.trimmingCharacters(in: .whitespacesAndNewlines)
                             if trimmedCuisineOrFood.isEmpty || trimmedCuisineOrFood.count <= 2 {
                                 cuisineOrFoodError = true
                             } else {
                                 // Running the getRestaurant Function here
                                 getRestaurants(foodOrCuisine: cuisineOrFood, location: location, distance: radius) { items in
-                                    if items.isEmpty {
-                                        // Throw an error here
-                                    } else {
-                                        isLoading = true
-                                        global.restaurantsList = items
+                                    DispatchQueue.main.async {
+                                        if items.isEmpty {
+                                            // Throw an error here
+                                        } else {
+                                            isLoading = true
+                                            global.restaurantsList = items
+                                        }
                                     }
                                 }
                             }
@@ -110,12 +113,12 @@ struct InputView: View {
                 if !toSelectedView {
                     LoadingView()
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() /*+ 5*/) {
                                 toSelectedView = true
                                 }
                             }
                     } else {
-                        SelectedView()
+                        SelectedView(global: global)
                         }
                     }
                 }

@@ -9,44 +9,40 @@ import Combine
 import CoreLocation
 import MapKit
 
-func getRestaurants(foodOrCuisine: String, location: String, distance: Int, completion: @escaping ([MKMapItem]) -> Void) { // Completion is running the code at the very end
-    let restaurantRequest = MKLocalSearch.Request() // MapKit request
+func getRestaurants(foodOrCuisine: String, location: String, distance: Int, completion: @escaping ([MKMapItem]) -> Void) {
     
-    restaurantRequest.naturalLanguageQuery = location
-    restaurantRequest.resultTypes = .address
+    // First, we need to get the coordinate of the user-entered location
+    let locationRequest = MKLocalSearch.Request()
+    locationRequest.naturalLanguageQuery = location
+    locationRequest.resultTypes = .address
     
-    MKLocalSearch(request: restaurantRequest).start { response, error in
-        // When search fails
+    MKLocalSearch(request: locationRequest).start { response, error in
         if let error = error {
             print("Location search error: \(error.localizedDescription)")
             completion([])
             return
         }
         
-        // When search succeeds but no results are found (needs at least one)
         guard let response = response,
-              let center = response.mapItems.first else {
-            print("No address results found.")
+              let coordinate = response.mapItems.first?.placemark.coordinate else {
+            print("No location results found.")
             completion([])
             return
         }
         
-        // Get coordinates of the found location
-        let coordinate = center.placemark.coordinate
-        
-        // Using the distance here
-        let meters = max(500, Double(distance) * 1609.34) // Using a minimum of 500 meters. MapKit uses meters.
-        
-        // The region of interest
-        let region = MKCoordinateRegion(
+        // Now, we can search
+        let restaurantRequest = MKLocalSearch.Request()
+        restaurantRequest.naturalLanguageQuery = "\(foodOrCuisine) restaurant"
+        restaurantRequest.resultTypes = [.pointOfInterest]
+        restaurantRequest.region = MKCoordinateRegion(
             center: coordinate,
-            latitudinalMeters: meters,
-            longitudinalMeters: meters
+            latitudinalMeters: max(500, Double(distance) * 1609.34),
+            longitudinalMeters: max(500, Double(distance) * 1609.34)
         )
         
         MKLocalSearch(request: restaurantRequest).start { restaurantResponse, error in
             if let error = error {
-                print("Restaurant Search error: \(error.localizedDescription)")
+                print("Restaurant search error: \(error.localizedDescription)")
                 completion([])
                 return
             }
@@ -57,7 +53,7 @@ func getRestaurants(foodOrCuisine: String, location: String, distance: Int, comp
                 return
             }
             
-            // Returning the first 25 results.
+            // Return the first 25 restaurants
             completion(Array(restaurantResponse.mapItems.prefix(25)))
         }
     }
