@@ -36,8 +36,8 @@ func getRestaurants(foodOrCuisine: String, location: String, distance: Int, comp
         restaurantRequest.resultTypes = [.pointOfInterest]
         restaurantRequest.region = MKCoordinateRegion(
             center: coordinate,
-            latitudinalMeters: max(500, Double(distance) * 1609.34),
-            longitudinalMeters: max(500, Double(distance) * 1609.34)
+            latitudinalMeters: Double(distance) * 1609.34,
+            longitudinalMeters: Double(distance) * 1609.34
         )
         
         MKLocalSearch(request: restaurantRequest).start { restaurantResponse, error in
@@ -53,8 +53,17 @@ func getRestaurants(foodOrCuisine: String, location: String, distance: Int, comp
                 return
             }
             
+            // Strictly filter by actual distance
+            let maxDistanceMeters = Double(distance) * 1609.34
+            let userLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            let filteredResults = restaurantResponse.mapItems.filter { item in
+                let restaurantLocation = CLLocation(latitude: item.placemark.coordinate.latitude, longitude: item.placemark.coordinate.longitude)
+                
+                return restaurantLocation.distance(from: userLocation) <= maxDistanceMeters
+            }
+            
             // Return the first 25 restaurants
-            completion(Array(restaurantResponse.mapItems.prefix(25)))
+            completion(Array(filteredResults.prefix(25)))
         }
     }
 }
