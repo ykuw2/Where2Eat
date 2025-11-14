@@ -72,3 +72,18 @@ func getRestaurants(foodOrCuisine: String, location: String, distance: Int, comp
 class globalRestaurants: ObservableObject {
     @Published var restaurantsList: [MKMapItem] = []
 }
+
+// Creating a Mock globalRestaurants object for testing
+class MockGlobalRestaurants: globalRestaurants {
+    override init() {
+        super.init()
+        
+        let item1 = MKMapItem(placemark: MKPlacemark(coordinate: .init(latitude: 32.7157, longitude: -117.1611)))
+        item1.name = "Pizza Palace"
+
+        let item2 = MKMapItem(placemark: MKPlacemark(coordinate: .init(latitude: 32.7157, longitude: -117.1610)))
+        item2.name = "Sushi World"
+
+        self.restaurantsList = [item1, item2]
+    }
+}

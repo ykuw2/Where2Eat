@@ -14,9 +14,8 @@ struct SelectedView: View {
     var body: some View {
         VStack {
             if !global.restaurantsList.isEmpty {
-                ForEach(global.restaurantsList, id: \.self) { restaurant in
-                    Text("\(String(describing: restaurant.name))") // Keep it type safe... for now
-                }
+                var restaurantName = global.restaurantsList.randomElement()?.name ?? "unknown"
+                Text("The selection is: \(restaurantName)")
             } else {
                 Text("Hello, World!")
             }
@@ -24,6 +23,6 @@ struct SelectedView: View {
     }
 }
 
-//#Preview {
-//    SelectedView()
-//}
+#Preview {
+    SelectedView(global: MockGlobalRestaurants())
+}

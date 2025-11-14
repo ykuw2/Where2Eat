@@ -15,6 +15,7 @@ struct InputView: View {
     @State private var radius: Int = 1
     @State private var isLoading: Bool = false
     @State private var cuisineOrFoodError: Bool = false
+    @State private var unableToFindRestaurantError: Bool = false
     @State private var toSelectedView: Bool = false
     @State private var searchViewModel = LocationSearchViewModel()
     @ObservedObject var global = globalRestaurants()
@@ -67,7 +68,7 @@ struct InputView: View {
                                 getRestaurants(foodOrCuisine: cuisineOrFood, location: location, distance: radius) { items in
                                     DispatchQueue.main.async {
                                         if items.isEmpty {
-                                            // Throw an error here
+                                            unableToFindRestaurantError = true
                                         } else {
                                             isLoading = true
                                             global.restaurantsList = items
@@ -77,6 +78,9 @@ struct InputView: View {
                             }
                         }
                         .alert("Cuisine or Food Input is Invalid", isPresented: $cuisineOrFoodError) {
+                            Button("Ok", role: .cancel) {}
+                        }
+                        .alert("Unable to find a restaurant for this selection. Please try again.", isPresented: $unableToFindRestaurantError) {
                             Button("Ok", role: .cancel) {}
                         }
                     }
