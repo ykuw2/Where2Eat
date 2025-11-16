@@ -73,6 +73,7 @@ class globalRestaurants: ObservableObject {
     @Published var restaurantsList: [MKMapItem] = []
 }
 
+
 // Creating a Mock globalRestaurants object for testing
 class MockGlobalRestaurants: globalRestaurants {
     override init() {
@@ -87,3 +88,26 @@ class MockGlobalRestaurants: globalRestaurants {
         self.restaurantsList = [item1, item2]
     }
 }
+
+
+extension MKMapItem {
+    var formattedAddress: String {
+        let placemark = self.placemark
+        
+        // Combine street number + street
+        let street = [placemark.subThoroughfare, placemark.thoroughfare]
+            .compactMap { $0 }
+            .joined(separator: " ")
+        
+        // Combine state + ZIP with a space
+        let stateZip = [placemark.administrativeArea, placemark.postalCode]
+            .compactMap { $0 }
+            .joined(separator: " ")
+        
+        // Join street, city, and state + ZIP with commas
+        return [street, placemark.locality, stateZip]
+            .compactMap { $0?.isEmpty == false ? $0 : nil }
+            .joined(separator: ", ")
+    }
+}
+

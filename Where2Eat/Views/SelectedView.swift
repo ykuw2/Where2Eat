@@ -10,14 +10,41 @@ import SwiftUI
 
 struct SelectedView: View {
     @ObservedObject var global: globalRestaurants
+    @State private var selected: MKMapItem? = nil
     
     var body: some View {
-        VStack {
-            if !global.restaurantsList.isEmpty {
-                var restaurantName = global.restaurantsList.randomElement()?.name ?? "unknown"
-                Text("The selection is: \(restaurantName)")
+        VStack(alignment: .leading, spacing: 12) {
+            
+            // Pick random restaurant once when the view appears
+            if let selected {
+                
+                Text("🍽️ Selected Restaurant")
+                    .font(.title.bold())
+                
+                Text("Name: \(selected.name ?? "Unknown")")
+                    .font(.headline)
+                
+                Text("Address: \(selected.formattedAddress)")
+                
+                Text("Phone: \(selected.phoneNumber ?? "Not available")")
+                
+                if let website = selected.url {
+                    Text("Website: \(website.absoluteString)")
+                        .foregroundStyle(.blue)
+                } else {
+                    Text("Website: Not available")
+                }
+
+                Divider().padding(.vertical, 8)
+                
             } else {
-                Text("Hello, World!")
+                Text("No restaurant selected yet.")
+            }
+        }
+        .padding()
+        .onAppear {
+            if selected == nil {
+                selected = global.restaurantsList.randomElement()
             }
         }
     }
