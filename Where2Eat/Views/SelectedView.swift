@@ -8,13 +8,33 @@
 import CoreLocation
 import MapKit
 import SwiftUI
+import UIKit
 
 struct SelectedView: View {
     @ObservedObject var global: globalRestaurants
     @State private var selected: MKMapItem? = nil
+    @State private var shareButtonSelected: Bool = false
+    
+    var onBack: () -> Void = {}
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            
+            // Back button
+            HStack {
+                Button {
+                    onBack()
+                } label: {
+                    Image(systemName: "chevron.left")
+                    Text("Back")
+                }
+                .foregroundColor(.blue)
+
+                Spacer()
+                
+                RestaurantShareButton(restaurant: selected)
+
+            }
             
             // Pick random restaurant once when the view appears
             if let selected {
@@ -69,6 +89,32 @@ struct SelectedView: View {
         }
     }
 }
+
+
+// Struct that is in charge of sharing the Restaurant Information
+struct RestaurantShareButton: View {
+    var restaurant: MKMapItem?
+    
+    var body: some View {
+        ShareLink(item: ShareText()) {
+            Image(systemName: "square.and.arrow.up")
+                .font(.headline)
+                .foregroundColor(.blue)
+        }
+    }
+    
+    private func ShareText() -> String {
+        if let restaurant = restaurant {
+            let name = restaurant.name ?? "Unknown Restaurant"
+            let address = restaurant.placemark.title ?? "Unknown Address"
+            
+            return "Let's go to this restaurant! \(name)\nAddress: \(address)"
+        } else {
+            return "No restaurant was selected."
+        }
+    }
+}
+
 
 #Preview {
     SelectedView(global: MockGlobalRestaurants())
