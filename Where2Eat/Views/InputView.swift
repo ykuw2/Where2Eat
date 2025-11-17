@@ -26,10 +26,11 @@ struct InputView: View {
             if !isLoading {
                 ZStack {
                     VStack {
-                        Text("Hello \(userName), what would you like to eat today?")
-                            .font(.system(size: 18, design: .rounded))
+                        Text("Hi \(userName)! \n What would you like to eat today?")
+                            .font(.system(size: 24, design: .rounded))
                             .foregroundColor(.white)
                             .bold()
+                            .multilineTextAlignment(.center)
                         
                         Spacer()
                             .frame(height: 50)
@@ -87,7 +88,7 @@ struct InputView: View {
                                 }
                             }
                         }
-                        .font(.system(size: 18, design: .rounded))
+                        .font(.system(size: 20, design: .rounded))
                         .foregroundColor(.white)
                         .bold()
                         .alert("Cuisine or Food Input is Invalid", isPresented: $cuisineOrFoodError) {
@@ -97,6 +98,7 @@ struct InputView: View {
                             Button("Ok", role: .cancel) {}
                         }
                     }
+                    .padding(.horizontal, 10)
                     // AutoComplete suggestions (Floating from ZStack)
                     if !searchViewModel.completions.isEmpty && !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         ScrollView {
