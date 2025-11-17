@@ -27,11 +27,16 @@ struct InputView: View {
                 ZStack {
                     VStack {
                         Text("Hello \(userName), what would you like to eat today?")
+                            .font(.system(size: 18, design: .rounded))
+                            .foregroundColor(.white)
+                            .bold()
                         
                         Spacer()
                             .frame(height: 50)
                         
                         Text("Cuisine or Food")
+                            .font(.system(size: 18, design: .rounded))
+                            .foregroundColor(.white)
                         TextField("Enter your cuisine of food you're craving", text: $cuisineOrFood)
                             .textFieldStyle(.roundedBorder)
                             .keyboardType(.asciiCapable)
@@ -39,6 +44,8 @@ struct InputView: View {
                         
                         
                         Text("Location")
+                            .font(.system(size: 18, design: .rounded))
+                            .foregroundColor(.white)
                         TextField("Enter your address, city, or a zip code", text: $location)
                             .textFieldStyle(.roundedBorder)
                             .keyboardType(.default)
@@ -48,12 +55,15 @@ struct InputView: View {
                             }
                         
                         Text("Radius")
+                            .font(.system(size: 18, design: .rounded))
+                            .foregroundColor(.white)
                         Picker("Radius", selection: $radius) {
                             ForEach(radiusDistance, id: \.self) { distance in
                                 Text("Within \(distance) \(distance == 1 ? "mile" : "miles")")
                             }
                         }
                         .pickerStyle(.menu)
+                        .tint(.white)
                         
                         Spacer()
                             .frame(height: 50)
@@ -77,6 +87,9 @@ struct InputView: View {
                                 }
                             }
                         }
+                        .font(.system(size: 18, design: .rounded))
+                        .foregroundColor(.white)
+                        .bold()
                         .alert("Cuisine or Food Input is Invalid", isPresented: $cuisineOrFoodError) {
                             Button("Ok", role: .cancel) {}
                         }
@@ -113,6 +126,9 @@ struct InputView: View {
                         .offset(y: 450)
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(red: 0.9, green: 0.3, blue: 0.0))
+                .ignoresSafeArea()
             } else { // if isLoading is true
                 if !toSelectedView {
                     LoadingView()

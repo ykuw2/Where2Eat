@@ -5,6 +5,7 @@
 //  Created by Yuki Kuwahara on 11/5/25.
 //
 
+import CoreLocation
 import MapKit
 import SwiftUI
 
@@ -31,11 +32,30 @@ struct SelectedView: View {
                 if let website = selected.url {
                     Text("Website: \(website.absoluteString)")
                         .foregroundStyle(.blue)
+                    
+                // TODO: The hours of the restaurant
                 } else {
                     Text("Website: Not available")
                 }
-
+                
                 Divider().padding(.vertical, 8)
+                
+                Map(
+                    coordinateRegion: .constant( // The map will not move
+                        MKCoordinateRegion(
+                            center: selected.placemark.coordinate,
+                            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01) // 0.01: Neighborhood Scale
+                        )
+                    ),
+                    annotationItems: [selected.placemark.coordinate] // Item to pin
+                ) { coordinate in
+                    MapMarker(coordinate: coordinate, tint: .red) // Red pin
+                }
+                .onTapGesture {
+                    selected.openInMaps(launchOptions: [ // Tells it to open the Apple Maps app when touched
+                        MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+                    ])
+                }
                 
             } else {
                 Text("No restaurant selected yet.")

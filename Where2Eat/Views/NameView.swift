@@ -16,7 +16,9 @@ struct NameView: View {
         VStack {
             HStack{
                 Text("What is your first name?")
-                    .font(.headline)
+                    .font(.system(size: 28, design: .rounded))
+                    .foregroundColor(.white)
+                    .bold()
                 Spacer()
             }.padding(.leading, 20)
             
@@ -32,6 +34,8 @@ struct NameView: View {
                     userName = trimmed
                 }
             }
+            .foregroundColor(.white)
+            .font(.system(size: 20, design: .rounded))
             .alert("Invalid Name", isPresented: $showAlert, actions: {
                 Button("Ok", role: .cancel) {}
             }, message: {
@@ -39,6 +43,9 @@ struct NameView: View {
             }
             )
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(red: 0.9, green: 0.3, blue: 0.0))
+        .ignoresSafeArea()
     }
 }
 
