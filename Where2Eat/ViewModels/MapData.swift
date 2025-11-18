@@ -91,6 +91,7 @@ class MockGlobalRestaurants: globalRestaurants {
 
 
 extension MKMapItem {
+    // Formatted Address
     var formattedAddress: String {
         let placemark = self.placemark
         

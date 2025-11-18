@@ -28,35 +28,49 @@ struct SelectedView: View {
                     Image(systemName: "chevron.left")
                     Text("Back")
                 }
-                .foregroundColor(.blue)
+                .foregroundColor(.white)
 
                 Spacer()
                 
                 RestaurantShareButton(restaurant: selected)
-
             }
             
             // Pick random restaurant once when the view appears
             if let selected {
                 
                 Text("🍽️ Selected Restaurant")
-                    .font(.title.bold())
+                    .foregroundColor(.white)
+                    .font(.system(size: 28, design: .rounded))
+                    .bold()
                 
                 Text("Name: \(selected.name ?? "Unknown")")
-                    .font(.headline)
+                    .foregroundColor(.white)
+                    .font(.system(size: 18, design: .rounded))
+                    .bold()
                 
                 Text("Address: \(selected.formattedAddress)")
+                    .foregroundColor(.white)
+                    .font(.system(size: 18, design: .rounded))
+                    .bold()
                 
                 Text("Phone: \(selected.phoneNumber ?? "Not available")")
+                    .foregroundColor(.white)
+                    .font(.system(size: 18, design: .rounded))
+                    .bold()
                 
                 if let website = selected.url {
                     Text("Website: \(website.absoluteString)")
-                        .foregroundStyle(.blue)
+                        .foregroundColor(.white)
+                        .font(.system(size: 18, design: .rounded))
+                        .bold()
                     
-                // TODO: The hours of the restaurant
                 } else {
                     Text("Website: Not available")
+                        .foregroundColor(.white)
+                        .font(.system(size: 18, design: .rounded))
+                        .bold()
                 }
+                
                 
                 Divider().padding(.vertical, 8)
                 
@@ -82,6 +96,7 @@ struct SelectedView: View {
             }
         }
         .padding()
+        .background(Color(red: 0.9, green: 0.3, blue: 0.0))
         .onAppear {
             if selected == nil {
                 selected = global.restaurantsList.randomElement()
@@ -99,7 +114,7 @@ struct RestaurantShareButton: View {
         ShareLink(item: ShareText()) {
             Image(systemName: "square.and.arrow.up")
                 .font(.headline)
-                .foregroundColor(.blue)
+                .foregroundColor(.white)
         }
     }
     

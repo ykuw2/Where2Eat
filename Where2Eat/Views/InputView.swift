@@ -140,7 +140,10 @@ struct InputView: View {
                                 }
                             }
                     } else {
-                        SelectedView(global: global)
+                        SelectedView(global: global) {
+                            isLoading = false
+                            toSelectedView = false
+                            }
                         }
                     }
                 }
