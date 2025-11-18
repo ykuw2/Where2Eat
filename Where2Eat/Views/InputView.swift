@@ -20,6 +20,9 @@ struct InputView: View {
     @State private var searchViewModel = LocationSearchViewModel()
     @ObservedObject var global = globalRestaurants()
     
+    // Adding a FocusState so that the AutoComplete does not get trigerred after changing the radius
+    @FocusState private var isLocationFocused: Bool
+    
     let radiusDistance: [Int] = [1, 5, 10, 20, 25, 50, 100]
     
     var body: some View {
@@ -51,8 +54,11 @@ struct InputView: View {
                             .textFieldStyle(.roundedBorder)
                             .keyboardType(.default)
                             .padding()
+                            .focused($isLocationFocused)
                             .onChange(of: location) {
-                                searchViewModel.updateSearch(location)
+                                if isLocationFocused {
+                                    searchViewModel.updateSearch(location)
+                                }
                             }
                         
                         Text("Radius")
@@ -65,6 +71,12 @@ struct InputView: View {
                         }
                         .pickerStyle(.menu)
                         .tint(.white)
+                        .onChange(of: radius) {
+                            isLocationFocused = false
+                            searchViewModel.updateSearch("")
+                            searchViewModel.completions = []
+                        }
+
                         
                         Spacer()
                             .frame(height: 50)
@@ -100,7 +112,9 @@ struct InputView: View {
                     }
                     .padding(.horizontal, 10)
                     // AutoComplete suggestions (Floating from ZStack)
-                    if !searchViewModel.completions.isEmpty && !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    if isLocationFocused,
+                       !searchViewModel.completions.isEmpty,
+                       !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         ScrollView {
                             VStack(spacing: 0) { // Removes gaps between each item
                                 ForEach(searchViewModel.completions, id: \.title) { item in
@@ -111,21 +125,24 @@ struct InputView: View {
                                         if !item.subtitle.isEmpty {
                                             Text(item.subtitle)
                                                 .font(.caption)
-                                                .foregroundColor(.gray)
+                                                .foregroundColor(.black)
                                         }
                                     }
                                     .padding(.vertical, 10)
-                                    .background(Color.white)
+                                    .frame(maxWidth: .infinity, minHeight: 50)
+                                    .background(Color(red: 0.9, green: 0.3, blue: 0.0))
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         location = item.title + (item.subtitle.isEmpty ? "" : ", \(item.subtitle)")
+                                        isLocationFocused = false
+                                        searchViewModel.updateSearch("")
                                         searchViewModel.completions = []
                                     }
                                 }
                             }
                         }
                         // TODO: Hardcoded the offset for now but use GeometeryReader or some sorts when dealing with UI elements later
-                        .offset(y: 450)
+                        .offset(y: 500)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
