@@ -141,12 +141,11 @@ struct InputView: View {
                             }
                         }
                         // TODO: Hardcoded the offset for now but use GeometeryReader or some sorts when dealing with UI elements later
-                        .offset(y: 500)
+                        .offset(y: 325)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(red: 0.9, green: 0.3, blue: 0.0))
-                .ignoresSafeArea()
+                .background(Color(red: 0.9, green: 0.3, blue: 0.0).ignoresSafeArea())
                 .onTapGesture {
                     hideKeyboard()
                 }
@@ -154,7 +153,7 @@ struct InputView: View {
                 if !toSelectedView {
                     LoadingView()
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() /*+ 5*/) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 toSelectedView = true
                                 }
                             }

@@ -116,5 +116,3 @@ extension MKMapItem {
 extension CLLocationCoordinate2D: Identifiable { // Needed since annotationItems need to conform to "Identifiable"
     public var id: String { "\(latitude),\(longitude)" }
 }
-
-

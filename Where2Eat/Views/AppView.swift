@@ -37,7 +37,7 @@ struct AppView: View {
     }
 
 #Preview {
-//     Use bottom for testing
+//    Use bottom for testing
 //    UserDefaults.standard.removeObject(forKey: "userName")
     return AppView()
 }
