@@ -46,7 +46,6 @@ struct InputView: View {
                             .keyboardType(.asciiCapable)
                             .padding()
                         
-                        
                         Text("Location")
                             .font(.system(size: 18, design: .rounded))
                             .foregroundColor(.white)
@@ -148,6 +147,9 @@ struct InputView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color(red: 0.9, green: 0.3, blue: 0.0))
                 .ignoresSafeArea()
+                .onTapGesture {
+                    hideKeyboard()
+                }
             } else { // if isLoading is true
                 if !toSelectedView {
                     LoadingView()

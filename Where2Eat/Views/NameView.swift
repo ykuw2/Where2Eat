@@ -46,6 +46,9 @@ struct NameView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 0.9, green: 0.3, blue: 0.0))
         .ignoresSafeArea()
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 }
 

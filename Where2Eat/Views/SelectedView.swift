@@ -75,7 +75,7 @@ struct SelectedView: View {
                 Divider().padding(.vertical, 8)
                 
                 Map(
-                    coordinateRegion: .constant( // The map will not move
+                    coordinateRegion: .constant(
                         MKCoordinateRegion(
                             center: selected.placemark.coordinate,
                             span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01) // 0.01: Neighborhood Scale
@@ -101,6 +101,9 @@ struct SelectedView: View {
             if selected == nil {
                 selected = global.restaurantsList.randomElement()
             }
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
     }
 }
