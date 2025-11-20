@@ -19,8 +19,7 @@ struct NameView: View {
                     .font(.system(size: 28, design: .rounded))
                     .foregroundColor(.white)
                     .bold()
-                Spacer()
-            }.padding(.leading, 20)
+            }
             
             TextField("Enter your name", text: $tempName)
                 .textFieldStyle(.roundedBorder)

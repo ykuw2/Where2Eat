@@ -140,8 +140,7 @@ struct InputView: View {
                                 }
                             }
                         }
-                        // TODO: Hardcoded the offset for now but use GeometeryReader or some sorts when dealing with UI elements later
-                        .offset(y: 325)
+                        .offset(y: verticalOffset())
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
