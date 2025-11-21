@@ -8,5 +8,5 @@
 enum PhoneSizeCategory {
     case small // iPhone SE
     case standard // iPhone 11~17(Pro)
-    case large // Plus, Max
+    case large // Plus, Max, Air
 }

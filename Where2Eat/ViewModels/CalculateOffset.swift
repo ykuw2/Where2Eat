@@ -28,6 +28,6 @@ func verticalOffset() -> CGFloat {
     case .standard:
         return 325
     case .large:
-        return 350
+        return 340
     }
 }
