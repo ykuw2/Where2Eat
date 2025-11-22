@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 This app was created from a problem that me and my friends always have: where to go eat.
 We have a certain cuisine or food we'd want, but never could decide on a specific restaurant. So I made this app to solve this problem.
 
@@ -46,7 +46,7 @@ This is the LoadingView:
 
 <img width="300" height="650" alt="simulator_screenshot_40D58032-C0B0-4911-B402-4633DAA614F4" src="https://github.com/user-attachments/assets/a94893c7-4c77-43f3-9ad6-da0169d8f84f" />
 
-This is the view shown when loading (It is when we are searching for restaurants using MapKit and randomly selecting a restaurant from the list of multiple restaurants, if there exist).
+This is the view shown when loading (It is when we are searching for restaurants using MapKit and randomly selecting a restaurant from the list of multiple restaurants, if they exist).
 
 ## The SelectedView
 This is the SelectedView, and example of when it chooses a restaurant:
@@ -55,9 +55,9 @@ This is the SelectedView, and example of when it chooses a restaurant:
 
 This view shows the information of the restaurant. The information includes the name of the restaurant, the address, the phone number, and the website if they have one. It also shows a map of where the restaurant is located, and when tapped, will bring you to the Apple Maps app giving you the direction from your current location.
 
-You can also share to go the restaurant using the Share Button on the right upper corner!
+You can also share the restaurant using the Share Button on the right upper corner!
 
 <img width="300" height="650"  alt="simulator_screenshot_F3E74477-6315-4824-9615-F65A6E3ECF0B" src="https://github.com/user-attachments/assets/df3d676d-5edc-4d7f-bb10-4eef98094adb" />
 
 ## Overall
-Overall, I was able to learn one of the biggest packages in iOS Development, `MapKit`. It was quite challenging, as I was also fighting the fact that there were some deprecations in the MapKit framework as I was working on this project when iOS 26 update just occurred. Despite some of the challenges, some native iOS frameworks like `MapKit` is very powerful, which was very surpising. I really enjoyed this project as it was related to one of my favorite things in the world, being food, and that I was able to develop an app during a major iOS update, which I believe many companies and developers likely face when they have an iOS application as part of their product.
+Overall, I was able to learn one of the biggest packages in iOS Development, `MapKit`. It was quite challenging, as I was also fighting the fact that there were some deprecations in the MapKit framework as I was working on this project when iOS 26 update just occurred. Despite some of the challenges, some native iOS frameworks like `MapKit` is very powerful, which was very surprising. I really enjoyed this project as it was related to one of my favorite things in the world, being food, and that I was able to develop an app during a major iOS update, which I believe many companies and developers likely face when they have an iOS application as part of their product.
